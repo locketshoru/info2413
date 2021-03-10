@@ -1,19 +1,39 @@
 //File Purpose: accounts schema setup for MongoDB.
 
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+/* Commenting out to fallback on
 mongoose.connect('mongodb://localhost:27017/account', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+	useNewUrlParser: true,
+	useUnifiedTopology: true
 })
 .catch(error => console.log(error.message));
+*/
 
-var accountSchema = new mongoose.Schema({
-	username: String,
-	type: String, //role permissions: user, employee, admin
-	password: String, //figure it out
-	email: String, //figure this out too
-	avatar: String //a link will be fine we don't have to host it
+const accountsSchema = new Schema({
+	username: {
+		type: String,
+		required: true
+	},
+	role: {
+		type: String, //role permissions: user, employee, admin
+		required: true
+	},
+	password: {
+		type: String, //figure it out
+		required: true
+	},
+	email: {
+		type: String, //figure this out too
+		required: true
+	},
+	avatar: {
+		type: String, //a link will be fine we don't have to host it
+		required: true
+	},
 });
 
-module.exports = mongoose.model("Account", accountSchema);
+const Accounts = mongoose.model('Accounts', accountsSchema);
+module.exports = Accounts;
 

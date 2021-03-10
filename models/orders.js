@@ -1,18 +1,36 @@
 //File Purpose: orders schema setup for MongoDB.
 
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+/* Commenting out to fallback on
 mongoose.connect('mongodb://localhost:27017/order', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+	useNewUrlParser: true,
+	useUnifiedTopology: true
 })
 .catch(error => console.log(error.message));
+*/
 
-var orderSchema = new mongoose.Schema({ //someone else can figure out how to add items to this
-	status: String,
-	customer: String,
-	itemList: String, //only lets you have one but this is someone else's problem :p
-	cashier: String
-});
+const orderSchema = new Schema({ //someone else can figure out how to add items to this
+	status: {
+		type: String,
+		required: true
+	},
+		
+	customer: {
+		type: String,
+		required: true
+	},
+	itemList: {
+		type: String, //only lets you have one but this is someone else's problem :p
+		required: true
+	},
+	cashier: {
+		type: String,
+		required: true
+	}
+}, { timestamps: true });
 
-module.exports = mongoose.model("Order", orderSchema);
+const Order = mongoose.model('Order', orderSchema);
+module.exports = Order;
 
