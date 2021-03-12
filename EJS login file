@@ -1,0 +1,15 @@
+<h1>login</h1> 
+  
+<form action="/login" method="POST"> 
+<input type="text" name="" placeholder=""> 
+<input type="password" name=""placeholder=""> 
+<button>login</button> 
+</form> 
+ 
+//This open bracket can be for the home page file text
+  
+<h1>/h1> 
+  
+<li><a href="/register"></a></li> 
+<li><a href="/login"></a></li> 
+<li><a href="/logout"></a></li> 
