@@ -1,0 +1,13 @@
+<!-- File Purpose: cart, view / edit / delete order page. -->
+
+<%- include ('partials/header') %>
+
+This is the active cart for a customer can go. It is also accessed by employees when changing the status of an order, and also when an admin fiddles with the details of an order. This will be versatile, and accessed in these such ways:
+-By a customer, viewing their current active order. They can't place an order when one under their name is still in the system.
+-By an employee, updating the status of an order. Parts of the orders that they can't change will be disabled, but viewable.
+-By an administrator updating the details of an order.
+
+Customers can access this page by viewing their cart. If they don't have an order, it will simply say so. If they have a pending order, they can also submit it here.
+Admins and employees can access this page via a post request on an order to edit that order. If they try to do so w/o a post request handing over the order ID, they'll get an error.
+
+<%- include ('partials/footer') %>
