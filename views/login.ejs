@@ -5,4 +5,16 @@
 This is where users can login. A lot of pages will redirect here if you're not logged in, so Slingsby is going to need the redirect code from Marcs and will add that into most pages. (It can't go in the header because then the site will break.)
 If we have time, we can add a forgot password feature, but I (Slingsby) doubt we'll get quite that far.
 
+  
+<form action="/login" method="POST"> 
+<input type="text" name="" placeholder=""> 
+<input type="password" name=""placeholder=""> 
+<button>login</button> 
+</form> 
+
+  
+<li><a href="/register"></a></li> 
+<li><a href="/login"></a></li> 
+<li><a href="/logout"></a></li> 
+
 <%- include ('partials/footer') %>
