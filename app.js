@@ -12,7 +12,8 @@ var express      = require("express"),
   passLocalMongo = require("passport-local-mongoose"),
   user           = require("./models/user"),
   port           = process.env.PORT || 2000;
-const mongoose = require('mongoose');
+const mongoose   = require('mongoose'),
+			bcrypt     = require ('bcrypt'); 
 
 	// Connect to MongoDB
 	dbURI = 'mongodb+srv://administrator:test1234@info-2413.md3gl.mongodb.net/TestDB?retryWrites=true&w=majority' //user: administrator pw: test 1234 database: TestDB
@@ -55,6 +56,23 @@ const mongoose = require('mongoose');
 			if (req.isAuthenticated()) return next(); 
 			res.redirect("/login"); 
 	}
+
+
+//Bcrypt test code.
+const saltRounds = 10;  
+var password = "abc123"; //this would be password thtas already in database
+var password2 = "abc1234"; //this is password that is entered.
+bcrypt.hash(password, saltRounds, function(err, hash) { 
+  bcrypt.compare(password2, hash, function(err, result) { 
+    if (result) {
+          console.log("It matches!")//this will call for the login function
+    }
+    
+    else {
+          console.log("Invalid password!");//this can lead to message that the username/password is incorrect
+    }
+  });
+});
 
 
 //main functions

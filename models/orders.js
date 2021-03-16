@@ -11,6 +11,11 @@ mongoose.connect('mongodb://localhost:27017/order', {
 .catch(error => console.log(error.message));
 */
 
+{"OrderStatus":"Pending","customer":"customerID","itemList":"ItemID","cashier":"Employee1"}
+{"OrderStatus":"Pending","customer":"customerID","itemList":"ItemID","cashier":"Employee2"}
+{"OrderStatus":"Pending","customer":"customerID","itemList":"ItemID","cashier":"Employee2"}
+{"OrderStatus":"Pending","customer":"customerID","itemList":"ItemID","cashier":"Employee3"}
+
 const orderSchema = new Schema({ //someone else can figure out how to add items to this
 	status: {
 		type: String,
