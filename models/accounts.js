@@ -3,18 +3,19 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-/* Commenting out to fallback on
+//Commenting out to fallback on
+/*
 mongoose.connect('mongodb://localhost:27017/account', {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
 })
 .catch(error => console.log(error.message));
 */
-
+/*
 {"username":"Ted Flanders","role":"user","password":"","email":"fake@email.com","avatar":""}
 {"username":"Harold Spork","role":"user","password":"","email":"yetAnotherFake@email.com","avatar":""}
 {"username":"Freddy Van Gough","role":"user","password":"","email":"anotherFake@email.com","avatar":""}
-
+*/
 const accountsSchema = new Schema({
 	username: {
 		type: String,

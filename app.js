@@ -2,18 +2,17 @@
 // Languages / Dialects Used: NodeJS, MongoDB NoSQL, EJS, JQuery, JavaScript, HTML, CSS, Sass, Bootstrap.
 
 // base setup
-var express      = require("express"), 
+var express        = require("express"), 
 	app            = express(), 
-	Order          = require("./models/orders"),
-	Inventory      = require("./models/inventory"),
-	Accounts       = require("./models/accounts"), 
 	bodyParser     = require("body-parser"),
-  localPass      = require("passport-local"), 
-  passLocalMongo = require("passport-local-mongoose"),
-  user           = require("./models/user"),
-  port           = process.env.PORT || 2000;
+    localPass      = require("passport-local"), 
+    passLocalMongo = require("passport-local-mongoose"),
+    port           = process.env.PORT || 2000;
 const mongoose   = require('mongoose'),
-			bcrypt     = require ('bcrypt'); 
+	  Order      = require("./models/orders"),
+	  Inventory  = require("./models/inventories"),
+	  Accounts   = require("./models/accounts"), 
+	  bcrypt     = require ('bcrypt'); 
 
 	// Connect to MongoDB
 	dbURI = 'mongodb+srv://administrator:test1234@info-2413.md3gl.mongodb.net/TestDB?retryWrites=true&w=majority' //user: administrator pw: test 1234 database: TestDB
@@ -22,17 +21,28 @@ const mongoose   = require('mongoose'),
 	.then((result) => app.listen(5000))
 	.catch((err) => console.log(err));
 
+	//This is to make Node be nice to me. -Slingsby
+	app.set("view engine", "ejs");
+	app.use('/public', express.static('public'));
+	app.use(bodyParser.urlencoded({extended: true}));
+	app.get("public/assets/cmstyles.css", function(req, res){
+		res.render("public/assets/cmstyles.css");
+	});
+
 	// Passport login setup.
+/* Commented out for testing purposes
 	passport.use(new localPass(user.authenticate())); 
 	passport.serializeUser(user.serializeUser()); 
 	passport.deserializeUser(user.deserializeUser());
+*/
 
 	// mongoose / mongo sandbox routes
-	// Testing implementation, if you add '/add-inventory' for the url, it should pull up this information
+	// Testing implementation, if you add '/add-inventory' for the url,
+	// it should update the document collection and send the result to the browser
 	app.get('/add-inventory', (req, res) => {
 		const inventory = new Inventory({
 			title: 'Razor blade refill',
-			image: 'https://drive.google.com/file/d/1aBS-vBJMYqYIjNd2OqNe2w_SOvRnqZgD/view?usp=sharing","ItemQuantity',
+			image: 'https://drive.google.com/file/d/1aBS-vBJMYqYIjNd2OqNe2w_SOvRnqZgD/view?usp=sharing',
 			description: 'A razor blade refill for shaving.',
 			price: '$10.99',
 		})
@@ -43,13 +53,19 @@ const mongoose   = require('mongoose'),
 		})
 		.catch((err) => {
 			console.log(err)
+		});
+	})
+	
+	// Check inventory document collection in database
+	app.get('/all-inventory', (req, res) => {
+		Inventory.find()
+			.then((result) => {
+				res.send(result);
+		})
+		.catch((err) => {
+			console.log(err);
 		})
 	})
-
-	//Custom CSS, don't touch.
-	app.get("public/assets/cmstyles.css", function(req, res){
-		res.render("public/assets/cmstyles.css");
-	});
 
   
 	function isLoggedIn(req, res, next) { 
@@ -109,7 +125,7 @@ app.get("/ibrowse", function(req,res){ // browse items page
 	res.render("ibrowse.ejs");
 });
 
-
+/* Commented out just for testing purposes
 app.get("/login", function(req,res){ //login page
 	res.render("login.ejs");
 });
@@ -123,7 +139,7 @@ app.get("/logout", function (req, res) {
     req.logout(); 
     res.redirect("/"); 
 }); 
-
+*/
 
 app.get("/obrowse", function(req,res){ // browse / current orders page
 	res.render("obrowse.ejs");
