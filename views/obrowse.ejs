@@ -2,6 +2,37 @@
 
 <%- include ('partials/header') %>
 
-This is where admins/employees only can browse open orders. Closed orders are not viewable in this way. Employees can claim an order by making a change to it before anyone else does, that assigns it to them. Admins can just change stuff. This POSTs to the cart page as well.
+<p>
+	This is where admins/employees only can browse open orders. Closed orders are not viewable in this way. Employees can claim an order by making a change to it before anyone else does, that assigns it to them. Admins can just change stuff. This POSTs to the cart page as well.
+</p>
+
+<% order.forEach(function(order){ %> 
+<div class="row my-3">
+	<div class="card border-1 rounded-1">
+		<div class="row">
+			<div class="col-3">
+				<h5 class="card-title"><%= order._id %></h5>
+			</div>
+			<div class="col-7">
+			  <div class="card-body">
+			    <h5 class="card-title"><%= order.title %></h5>
+			    <p class="card-text" style="font-size:0.8rem"><%= order.description %></p>
+			  </div>
+			</div>
+			<div class="col-2 text-center h-100 py-3">
+				<form action="/cart" method="POST" >
+					<select class="form-select w-50 mx-auto" id="editorder">
+						<option selected value="0">New</option>
+						<option value="1">Working On</option>
+						<option value="2">Partially Done</option>
+						<option value="3">Completed</option>
+					</select>
+					<button class="btn btn-outline-secondary" style="position: absolute;bottom: 1rem;right: 3%;" type="submit">Claim Order</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<% }); %>
 
 <%- include ('partials/footer') %>

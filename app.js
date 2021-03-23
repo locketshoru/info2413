@@ -125,10 +125,10 @@ app.get("/ibrowse", function(req,res){ // browse items page
 	res.render("ibrowse.ejs");
 });
 
-/* Commented out just for testing purposes
+
 app.get("/login", function(req,res){ //login page
 	res.render("login.ejs");
-});
+});/* Commented out just for testing purposes
 app.post("/login", passport.authenticate("local", { 
     successRedirect: "/secret", 
     failRedirect: "/login"
@@ -151,7 +151,7 @@ app.get("/overview", function(req,res){ // view order page
 });
 
 
-app.get("/register", function(req,res){ //register page
+/* app.get("/register", function(req,res){ //register page
 	res.render("register.ejs");
 });  
 app.post("/register", function (req, res) { 
@@ -169,7 +169,8 @@ user.register(new user({ username: username }),
             res.render("secret"); 
         }); 
     }); 
-}); 
+}); */ 
+//I forgot we aren't registering users. -Slingsby
 
 
 app.get("/search", function(req,res){ //search page
