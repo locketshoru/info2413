@@ -46,7 +46,8 @@ user.register(new user({ username: username }),
 app.get("/login", function (req, res) { 
     res.render("login"); 
 }); 
-  
+  //this is the important part. i still havent tested cause I keep runniong into an error but Im going to try and fix it or just try and implement it into the main code and test it that way
+
 app.post("/login",(req,res) =>  { 
     MongoClient.connect('mongodb+srv://administrator:test1234@info-2413.md3gl.mongodb.net/TestDB?retryWrites=true&w=majority',(error,db) => {
         if(error)
