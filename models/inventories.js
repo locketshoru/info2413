@@ -22,11 +22,12 @@ const inventorySchema = new Schema({
 		required: true
 	},
 	image: {
-		type: String, // Not sure of the datatype for this yet
+		type: String, // Not sure of the datatype for this yet, but it's probably right
 		required: true
 	},
 	description: {
 		type: String,
+		required: true
 	},
 	price: {
 		type: String,
@@ -34,6 +35,6 @@ const inventorySchema = new Schema({
 	}
 });
 
-const Inventory = mongoose.model('Inventory', inventorySchema);
+const Inventory = mongoose.model('Inventory', inventorySchema,);
 module.exports = Inventory;
 

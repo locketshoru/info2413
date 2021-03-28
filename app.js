@@ -2,17 +2,31 @@
 // Languages / Dialects Used: NodeJS, MongoDB NoSQL, EJS, JQuery, JavaScript, HTML, CSS, Sass, Bootstrap.
 
 // base setup
-var express        = require("express"), 
+var express        = require('express'), 
 	app            = express(), 
-	bodyParser     = require("body-parser"),
-    localPass      = require("passport-local"), 
-    passLocalMongo = require("passport-local-mongoose"),
+	bodyParser     = require('body-parser'),
+    localPass      = require('passport-local'), 
+    passLocalMongo = require('passport-local-mongoose'),
     port           = process.env.PORT || 2000;
-const mongoose   = require('mongoose'),
-	  Order      = require("./models/orders"),
-	  Inventory  = require("./models/inventories"),
-	  Accounts   = require("./models/accounts"), 
-	  bcrypt     = require ('bcrypt'); 
+const mongoose       = require('mongoose'),
+	  Order          = require('./models/orders'),
+	  Inventory      = require('./models/inventories'),
+	  Accounts       = require('./models/accounts'), 
+	  bcrypt         = require('bcrypt'),
+	  flash          = require('express-flash'),
+	  session        = require('express-session'),
+	  methodOverride = require('method-override'),
+	  passport       = require('passport');
+
+
+// I believe user.email / user.id needs to reference the database -todo-
+const initializePassport = require('./passport-config')
+initializePassport
+(
+	passport,
+	email => users.find(user => user.email === email),
+	id => users.find(user => user.id === id)
+)
 
 	// Connect to MongoDB
 	dbURI = 'mongodb+srv://administrator:test1234@info-2413.md3gl.mongodb.net/TestDB?retryWrites=true&w=majority' //user: administrator pw: test 1234 database: TestDB
@@ -24,25 +38,18 @@ const mongoose   = require('mongoose'),
 	//This is to make Node be nice to me. -Slingsby
 	app.set("view engine", "ejs");
 	app.use('/public', express.static('public'));
-	app.use(bodyParser.urlencoded({extended: true}));
+	app.use(bodyParser.urlencoded({ extended: true }));
 	app.get("public/assets/cmstyles.css", function(req, res){
 		res.render("public/assets/cmstyles.css");
 	});
 
-	// Passport login setup.
-/* Commented out for testing purposes
-	passport.use(new localPass(user.authenticate())); 
-	passport.serializeUser(user.serializeUser()); 
-	passport.deserializeUser(user.deserializeUser());
-*/
-
-	// mongoose / mongo sandbox routes
+	// Test mongoose / mongo sandbox routes
 	// Testing implementation, if you add '/add-inventory' for the url,
 	// it should update the document collection and send the result to the browser
 	app.get('/add-inventory', (req, res) => {
 		const inventory = new Inventory({
 			title: 'Razor blade refill',
-			image: 'https://drive.google.com/file/d/1aBS-vBJMYqYIjNd2OqNe2w_SOvRnqZgD/view?usp=sharing',
+			image: 'https://i.imgur.com/ahlXbei.png',
 			description: 'A razor blade refill for shaving.',
 			price: '$10.99',
 		})
@@ -66,6 +73,18 @@ const mongoose   = require('mongoose'),
 			console.log(err);
 		})
 	})
+
+	app.get('/single-inventory', (req, res) => {
+		Inventory.findById('60567dccac611d40a803f133') // Pulls up digital scale document from database
+		.then((result) => {
+			res.send(result)
+		})
+		.catch((err) => {
+			console.log(err);
+		})
+	})
+
+	// end of sandbox routes :)
 
   
 	function isLoggedIn(req, res, next) { 
@@ -106,43 +125,46 @@ app.get("/asearch", function(req,res){ //advanced search page
 	res.render("asearch.ejs");
 });
 
-
-app.post("/cart", function(req,res){ //submit order
+// Need to look into this at some point
+// was app.post before
+app.get("/cart", function(req,res){ //submit order
+	
 	var itemList = req.body.itemList;
 	var customer = req.body.customer;
-	var newPoem = {itemList: itemList, customer: customer};
+	var newOrder = {itemList: itemList, customer: customer};
 	Order.create(newOrder, function(err, newlyCreated){
 		if(err){
 			console.log(err);
 		} else {
 			res.redirect("/cart");}
 		});
+	
 	res.render("cart.ejs");
 });
 
-
+// Refer to this if you're stuck for getting collections synced to routes :)
 app.get("/ibrowse", function(req,res){ // browse items page
-	res.render("ibrowse.ejs");
+	Inventory.find()
+		.then((result) => {
+		res.render('ibrowse.ejs', { inventories: result });
+	})
+	.catch((err) => {
+		console.log(err);
+	})
 });
 
-
-app.get("/login", function(req,res){ //login page
-	res.render("login.ejs");
-});/* Commented out just for testing purposes
-app.post("/login", passport.authenticate("local", { 
-    successRedirect: "/secret", 
-    failRedirect: "/login"
-}), function (req, res) { 
-  res.render("login");
-});    
-app.get("/logout", function (req, res) { 
-    req.logout(); 
-    res.redirect("/"); 
-}); 
-*/
-
+/* Need to figure out proper order.tags for each respective spot.
+ * Also need to look into figuring out a few things regarding who's ordered what.
+ * Besides that, the route functions properly
+ */
 app.get("/obrowse", function(req,res){ // browse / current orders page
-	res.render("obrowse.ejs");
+	Order.find()
+		.then((result) => {
+		res.render('obrowse.ejs', { orders: result });
+	})
+	.catch((err) => {
+		console.log(err);
+	})
 });
 
 
@@ -150,6 +172,62 @@ app.get("/overview", function(req,res){ // view order page
 	res.render("overview.ejs");
 });
 
+
+app.get("/search", function(req,res){ //search page
+	res.render("search.ejs");
+});
+
+
+app.get("/tos", function(req,res){ //terms of service page
+	res.render("tos.ejs");
+}); 
+
+// For the login setup, I have left the previous code here to reference in the future.
+// If this all ends up working properly in the future, we could probably do away with the commented code.
+
+
+// Passport login setup.
+/* This is now referenced in passport-config.js & linked above
+passport.use(new localPass(user.authenticate())); 
+passport.serializeUser(user.serializeUser()); 
+passport.deserializeUser(user.deserializeUser());
+*/
+
+
+/*
+app.get('/login', function(req,res) {
+	res.render('login.ejs');
+})
+*/
+app.get('/login', checkNotAuthenticated, (req,res) => { //login page
+	res.render('login.ejs');
+})
+/*
+app.post("/login", passport.authenticate("local", { 
+   	successRedirect: "/secret", 
+   	failRedirect: "/login"
+}), function (req, res) { 
+	res.render("login");
+});
+*/
+app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
+	successRedirect: '/secret',
+	failRedirect: '/login',
+	failureFlash: true
+}))
+// Commented out just for testing purposes
+/*  
+	app.get("/logout", function (req, res) { 
+	req.logout(); 
+	res.redirect("/"); 
+}); 
+*/
+app.delete('/logout', (req, res) => {
+	req.logout()
+	res.redirect('/')
+})
+
+// end of login system :)
 
 /* app.get("/register", function(req,res){ //register page
 	res.render("register.ejs");
@@ -173,16 +251,6 @@ user.register(new user({ username: username }),
 //I forgot we aren't registering users. -Slingsby
 
 
-app.get("/search", function(req,res){ //search page
-	res.render("search.ejs");
-});
-
-
-app.get("/tos", function(req,res){ //terms of service page
-	res.render("tos.ejs");
-});
-
-
 app.listen(3000, '0.0.0.0', function(){ //Server start, so is accessible from a link.
 	console.log("Server Start!");
 }) 
@@ -191,3 +259,19 @@ app.listen(3000, '0.0.0.0', function(){ //Server start, so is accessible from a 
 app.listen(port, function () { 
     console.log("Booted up."); 
 }); 
+
+
+function checkAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next()
+    }
+
+    res.redirect('/login')
+}
+
+function checkNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return res.redirect('/')
+    }
+    next()
+}

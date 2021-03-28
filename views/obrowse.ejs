@@ -5,8 +5,9 @@
 <p>
 	This is where admins/employees only can browse open orders. Closed orders are not viewable in this way. Employees can claim an order by making a change to it before anyone else does, that assigns it to them. Admins can just change stuff. This POSTs to the cart page as well.
 </p>
-
-<% order.forEach(function(order){ %> 
+<!-- Need to figure out proper order.tags for each respective spot -->
+<!-- Also need to look into figuring out a few things regarding who's ordered what -->
+<% orders.forEach(function(order){ %> 
 <div class="row my-3">
 	<div class="card border-1 rounded-1">
 		<div class="row">
