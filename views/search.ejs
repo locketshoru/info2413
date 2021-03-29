@@ -2,6 +2,11 @@
 
 <%- include ('partials/header') %>
 
-This is the basic search that customers use. Employees and admins can also use it, though I don't know why they would other than for convenience.
+This is the basic search that customers use. Employees and admins can also use it, though I don't know why they would other than for convenience. This only searches orders by order ID.
+
+	<form class="d-flex w-75 mx-auto mt-4">
+		<input class="form-control me-2" type="search" placeholder="Search order..." aria-label="Search">
+		<button class="btn btn-success" type="submit">Search</button>
+	</form>
 
 <%- include ('partials/footer') %>

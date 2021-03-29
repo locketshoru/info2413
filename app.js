@@ -116,8 +116,20 @@ app.get("/", function(req,res){ //index page
 });
 
 
-app.get("/account", function(req,res){ // account details page
-	res.render("account.ejs");
+app.get("/account", function(req,res){ // account details pageOrder.find()
+	Account.find()
+		.then((result) => {
+			Order.find()
+				.then((result) => {
+					res.render("account.ejs", { orders: result });
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+		})
+	.catch((err) => {
+		console.log(err);
+	})
 });
 
 
@@ -169,13 +181,30 @@ app.get("/obrowse", function(req,res){ // browse / current orders page
 
 
 app.get("/overview", function(req,res){ // view order page
-	res.render("overview.ejs");
+	Order.findById(req.params.id, function(err, foundOrder){
+		if(err){
+			console.log(err);
+		} else {
+			res.render("overview.ejs", {order: foundOrder});
+		}	
+	});
 });
 
 
 app.get("/search", function(req,res){ //search page
 	res.render("search.ejs");
 });
+app.post("/search", function(req,res){ //Basic search by order ID.
+	app.get("/overview");
+	Order.findById(req.params.id, function(err, foundOrder){
+		if(err){
+			console.log(err);
+		} else {
+			res.render("overview.ejs", {order: foundOrder});
+		}	
+	});
+});
+
 
 
 app.get("/tos", function(req,res){ //terms of service page

@@ -5,4 +5,12 @@
 This is where the advanced search is. Available only to employees and admins, otherwise redirects you to a) the login page if not logged in, or b) the normal search.
 Has more search functions, basically.
 
+	<form class="d-flex w-75 mx-auto mt-4">
+		<input class="form-control me-2" type="search" placeholder="Order ID" aria-label="Search">
+		<input class="form-control me-2" type="search" placeholder="Order Status" aria-label="Search">
+		<input class="form-control me-2" type="search" placeholder="Customer Name" aria-label="Search">
+		<input class="form-control me-2" type="search" placeholder="Customer Email" aria-label="Search">
+		<button class="btn btn-success" type="submit">Search</button>
+	</form>
+
 <%- include ('partials/footer') %>
