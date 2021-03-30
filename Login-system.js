@@ -16,6 +16,10 @@ var localPass = require("passport-local");
 var passLocalMongo = require("passport-local-mongoose");
 var user = require("./models/user"); 
 
+//add mongoose in between here if needed
+
+//end
+
 //abreviation of project (use app as test name)  
 var = express();
 .set("view engine", "ejs");
