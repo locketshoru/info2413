@@ -16,10 +16,17 @@ var localPass = require("passport-local");
 var passLocalMongo = require("passport-local-mongoose");
 var user = require("./models/user"); 
 
+//abreviation of project (use app as test name)  
+var = express();
+.set("view engine", "ejs");
+.use(bodyParser.urlencoded( extended: true }));
+
+.use(passport.initialize());
+.use(passport.session());
+
 passport.use(new localPass(user.authenticate())); 
 passport.serializeUser(user.serializeUser()); 
 passport.deserializeUser(user.deserializeUser()); 
-
 
  
 .get("/", function (req, res) { 
