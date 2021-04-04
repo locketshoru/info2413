@@ -17,23 +17,27 @@ var passLocalMongo = require("passport-local-mongoose");
 var user = require("./models/user"); 
 
 //add mongoose in between here if needed
-
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', true);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
+mongoose.connect("mongodb+srv://administrator:test1234@info-2413.md3gl.mongodb.net/TestDB?retryWrites=true&w=majority");
 //end
 
 //abreviation of project (use app as test name)  
-var = express();
-.set("view engine", "ejs");
-.use(bodyParser.urlencoded( extended: true }));
+var app = express();
+app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded( extended: true }));
 
-.use(passport.initialize());
-.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 passport.use(new localPass(user.authenticate())); 
 passport.serializeUser(user.serializeUser()); 
 passport.deserializeUser(user.deserializeUser()); 
 
  
-.get("/", function (req, res) { 
+app.get("/", function (req, res) { 
 res.render("home"); 
 }); 
 
@@ -41,7 +45,7 @@ get("/register", function (req, res) {
 res.render("register"); 
 }); 
   
-.post("/register", function (req, res) { 
+app.post("/register", function (req, res) { 
 var username = req.body.username 
 var password = req.body.password 
 user.register(new user({ username: username }), 
@@ -59,11 +63,11 @@ user.register(new user({ username: username }),
 }); 
   
 
-.get("/login", function (req, res) { 
+app.get("/login", function (req, res) { 
     res.render("login"); 
 }); 
   
-.post("/login", passport.authenticate("local", { 
+app.post("/login", passport.authenticate("local", { 
     successRedirect: "/secret", 
     failRedirect: "/login"
 }), 
@@ -72,7 +76,7 @@ function (req, res) {
   res.render("login");
 }); 
    
-.get("/logout", function (req, res) { 
+app.get("/logout", function (req, res) { 
     req.logout(); 
     res.redirect("/"); 
 }); 
@@ -83,6 +87,6 @@ function isLoggedIn(req, res, next) {
 } 
   
 var port = process.env.PORT || 2000; 
-.listen(port, function () { 
+app.listen(port, function () { 
     console.log("Booted up."); 
 });
