@@ -50,7 +50,7 @@ var username = req.body.username
 var password = req.body.password 
 var email = req.body.email
 user.register(new user({ username: username }), 
-           password, function (err, user) { 
+           password, email, function (err, user) { 
        if (err) { 
            console.log(err); 
            return res.render("register"); 
