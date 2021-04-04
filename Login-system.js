@@ -48,6 +48,8 @@ res.render("register");
 app.post("/register", function (req, res) { 
 var username = req.body.username 
 var password = req.body.password 
+var email = req.body.email
+var display = req.body.display
 user.register(new user({ username: username }), 
            password, function (err, user) { 
        if (err) { 
