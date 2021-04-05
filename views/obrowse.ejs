@@ -7,21 +7,97 @@
 </p>
 <!-- Need to figure out proper order.tags for each respective spot -->
 <!-- Also need to look into figuring out a few things regarding who's ordered what -->
-<% orders.forEach(function(order){ %> 
+<% orders.forEach(function(orders, inventories){ %> 
 <div class="row my-3">
 	<div class="card border-1 rounded-1">
 		<div class="row">
 			<div class="col-3">
-				<h5 class="card-title"><%= order._id %></h5>
+				<img style="max-width:125px;max-height:125px" src="
+					<% var compare1 = String(orders.item1) === String(inventories._id); %>
+					<% var compare2 = String(orders.item2) === String(inventories._id); %>
+					<% var compare3 = String(orders.item3) === String(inventories._id); %>
+					<% var compare4 = String(orders.item4) === String(inventories._id); %>
+					<% var compare5 = String(orders.item5) === String(inventories._id); %>
+					<% if (compare1 = true) %>
+					<% { %>
+						<%= inventories.item1Image %>
+					<% } %>
+					<% if (compare2 = true) %>
+					<% { %>
+						<%= inventories.item2Image %>
+					<% } %>
+					<% if (compare3 = true) %>
+					<% { %>
+						<%= inventories.item3Image %>
+					<% } %>
+					<% if (compare4 = true) %>
+					<% { %>
+						<%= inventories.item4Image %>
+					<% } %>
+					<% if (compare5 = true) %>
+					<% { %>
+						<%= inventories.item5Image %>
+					<% } %>" />
 			</div>
 			<div class="col-7">
 			  <div class="card-body">
-			    <h5 class="card-title"><%= order.title %></h5>
-			    <p class="card-text" style="font-size:0.8rem"><%= order.description %></p>
+			    <h5 class="card-title">
+						<% compare1 = String(orders.item1) === String(inventories._id); %>
+						<% compare2 = String(orders.item2) === String(inventories._id); %>
+						<% compare3 = String(orders.item3) === String(inventories._id); %>
+						<% compare4 = String(orders.item4) === String(inventories._id); %>
+						<% compare5 = String(orders.item5) === String(inventories._id); %>
+						<% if (compare1 = true) %>
+						<% { %>
+							<%= orders.item1Title %>
+						<% } %>
+						<% if (compare2 = true) %>
+						<% { %>
+							<%= orders.item2Title %>
+						<% } %>
+						<% if (compare3 = true) %>
+						<% { %>
+							<%= orders.item3Title %>
+						<% } %>
+						<% if (compare4 = true) %>
+						<% { %>
+							<%= orders.item4Title %>
+						<% } %>
+						<% if (compare5 = true) %>
+						<% { %>
+							<%= orders.item5Title %>
+						<% } %></h5>
+			    <p class="card-text" style="font-size:0.8rem">
+						<% compare1 = String(orders.item1) === String(inventories._id); %>
+						<% compare2 = String(orders.item2) === String(inventories._id); %>
+						<% compare3 = String(orders.item3) === String(inventories._id); %>
+						<% compare4 = String(orders.item4) === String(inventories._id); %>
+						<% compare5 = String(orders.item5) === String(inventories._id); %>
+						<% if (compare1 = true) %>
+						<% { %>
+							<%= orders.item1Description %>
+						<% } %>
+						<% if (compare2 = true) %>
+						<% { %>
+							<%= orders.item2Description %>
+						<% } %>
+						<% if (compare3 = true) %>
+						<% { %>
+							<%= orders.item3Description %>
+						<% } %>
+						<% if (compare4 = true) %>
+						<% { %>
+							<%= orders.item4Description %>
+						<% } %>
+						<% if (compare5 = true) %>
+						<% { %>
+							<%= orders.item5Description %>
+						<% } %>
+				</p>
 			  </div>
 			</div>
 			<div class="col-2 text-center h-100 py-3">
-				<form action="/cart" method="POST" >
+				<form action="/orderedit" method="POST" >
 					<select class="form-select w-100 mx-auto mb-2" id="editorder">
 						<option selected value="0">New</option>
 						<option value="1">Working On</option>

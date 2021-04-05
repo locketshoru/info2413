@@ -32,7 +32,12 @@ const inventorySchema = new Schema({
 	price: {
 		type: String,
 		required: true
+	},
+	quantity: {
+		type: Number,
+		required: true
 	}
+
 });
 
 const Inventory = mongoose.model('Inventory', inventorySchema,);

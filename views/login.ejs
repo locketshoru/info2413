@@ -5,15 +5,43 @@
 <p>This is where users can login. A lot of pages will redirect here if you're not logged in, so Slingsby is going to need the redirect code from Marcs and will add that into most pages. (It can't go in the header because then the site will break.)<br/>
 If we have time, we can add a forgot password feature, but I (Slingsby) doubt we'll get quite that far.</p>
 
-<div class="card mx-auto w-25 mt-4 py-3">
+<!-- <div class="card mx-auto w-25 mt-4 py-3">
 	<form action="/account" method="POST"> 
-		<input type="text" name="username" placeholder="Username" class="mx-auto rounded"> 
-		<input type="password" name="password" placeholder="Password" class="mx-auto rounded"> 
+		<input type="text" name="username" placeholder="Username" class="mx-auto rounded" required> 
+		<input type="password" name="password" placeholder="Password" class="mx-auto rounded" required> 
 		<button class="btn btn-outline-secondary mx-auto" type="submit" id="login">Login</button> 
 	</form>
+</div> -->
+
+<div class="col-sm-6 col-sm-offset-3">
+
+    <h1><span class="fa fa-sign-in"></span> Login</h1>
+
+    <!-- show any messages that come back with authentication -->
+    <% if (message.length > 0) { %>
+        <div class="alert alert-danger"><%= message %></div>
+    <% } %>
+
+    <!-- LOGIN FORM -->
+    <form action="/login" method="post">
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" class="form-control" name="email">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" name="password">
+        </div>
+
+        <button type="submit" class="btn btn-warning btn-lg">Login</button>
+    </form>
+
+    <hr>
+
+    <p>Need an account? <a href="/register">Signup</a></p>
+    <p>Or go <a href="/">home</a>.</p>
+
 </div>
-
-
 
 
 <%- include ('partials/footer') %>

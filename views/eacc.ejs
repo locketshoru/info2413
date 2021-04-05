@@ -1,0 +1,148 @@
+<!-- File Purpose: Admins can edit accounts here. -->
+
+<%- include ('partials/header') %>
+
+This is where everything will go.
+
+<div class="container">
+	<div class="row">
+		<div class="col-10 card rounded pt-2 mb-2">
+			<form action="/account" method="POST">
+				<div class="row">
+					<div class="col-5">
+						<div class="mb-3">
+							<label for="name" class="form-label">Display Name</label>
+							<input type="text" class="form-control" id="name" name="name" placeholder="Display Name">
+						</div>
+						<div class="mb-3">
+							<label for="username" class="form-label">Username</label>
+							<input type="text" class="form-control" id="username" name="username" placeholder="Username">
+						</div>
+					</div>
+					<div class="col-5">
+						<div class="mb-3">
+							<label for="email" class="form-label">Email</label>
+							<input type="email" class="form-control" name="email" id="email">
+						</div>
+						<div class="mb-3">
+							<label for="password" class="form-label">Password</label>
+							<input type="password" class="form-control" name="password" id="password">
+						</div>
+					</div>
+					<div class="col-2 h-100">
+						<button type="submit" class="btn btn-success align-self-start mx-auto mt-3">Add</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<br><br><hr><br><br>
+
+	<div class="nav nav-pills mx-auto mb-4  text-center" role="tablist">
+		<button class="nav-link active" data-bs-toggle="pill" data-bs-target="#cust" type="button" role="tab">Customers</button>
+		<button class="nav-link" data-bs-toggle="pill" data-bs-target="#empl" type="button" role="tab">Employees</button>
+	</div>
+
+<div class="tab-content">
+	<div class="tab-pane fade show active" id="cust" role="tabpanel" aria-labelledby="Customers">
+		<div class="container">
+			<% userdata.forEach(function(userdata){ %>
+				<% if(userdata.role === "customer"){ %>
+					<div class="row">
+						<div class="col-10 card rounded pt-2 mb-2">
+							<form id="modify<%= userdata.username %>" action="/users/<%= userdata._id %>" method="POST"></form>
+							<form id="delete<%= userdata.username %>" action="/<%= userdata._id %>" method="POST"></form>
+								<div class="row">
+									<div class="col-2">
+										<img src="<% if (userdata.avatar){userdata.avatar} else {%>https://i.imgur.com/17COUic.png<% }; %>" style="width:80%;height:80%">
+									</div>
+									<div class="col-4">
+										<div class="mb-3">
+											<label for="dina" class="form-label">Display Name</label>
+											<input type="text" class="form-control" id="name" name="name" placeholder="<%= userdata.name %>" form="modify<%= userdata.username %>">
+										</div>
+										<div class="mb-3">
+											<label for="usna" class="form-label">Username</label>
+											<input type="text" class="form-control" id="username" name="username" placeholder="<%= userdata.username %>" form="modify<%= userdata.username %>">
+										</div>
+									</div>
+									<div class="col-4">
+										<div class="row">
+											<div class="col">
+												<div class="mb-3">
+													<label for="email" class="form-label">Email</label>
+													<input type="email" class="form-control" name="email" id="email" placeholder="<%= userdata.email %>" form="modify<%= userdata.username %>">
+												</div>
+											</div>
+											<div class="col">
+												<div class="mb-3">
+													<label for="shap" class="form-label">Ship Address</label>
+													<input type="text" class="form-control" name="shap" id="shap" placeholder="<%= userdata.shipaddr %>" disabled>
+												</div>
+											</div>
+										</div>
+										<div class="mb-3">
+											<label for="pawo" class="form-label">Password</label>
+											<input type="password" class="form-control" name="password" id="password" disabled>
+										</div>
+									</div>
+									<div class="col-2 h-100 text-center">
+									<button type="submit" class="btn btn-warning align-self-start mx-auto mt-3" form="delete<%= userdata.username %>">Delete</button>
+									<button type="submit" class="btn btn-success align-self-end mx-auto mt-3" form="modify<%= userdata.username %>">Modify</button>
+									</div>
+								</div>
+						</div>
+					</div>
+				<% }; %>
+			<% }); %>
+		</div>
+	</div>
+	<div class="tab-pane fade" id="empl" role="tabpanel" aria-labelledby="Employees">
+		<div class="container">
+			<% userdata.forEach(function(userdata){ %>
+				<% if(userdata.role === "employee"){ %>
+					<div class="row">
+						<div class="col-10 card rounded pt-2 mb-2">
+							<form id="modify<%= userdata.username %>" action="/users/<%= userdata._id %>" method="POST"></form>
+							<form id="delete<%= userdata.username %>" action="/<%= userdata._id %>" method="POST"></form>
+							<div class="row">
+								<div class="col-2">
+									<img src="<% if (userdata.avatar){userdata.avatar} else {%>https://i.imgur.com/17COUic.png<% }; %>" style="width:80%;height:80%">
+								</div>
+								<div class="col-4">
+									<div class="mb-3">
+										<label for="dina" class="form-label">Display Name</label>
+										<input type="text" class="form-control" id="name" name="name" placeholder="<%= userdata.name %>" form="modify<%= userdata.username %>">
+									</div>
+									<div class="mb-3">
+										<label for="usna" class="form-label">Username</label>
+										<input type="text" class="form-control" id="username" name="username" placeholder="<%= userdata.username %>" form="modify<%= userdata.username %>">
+									</div>
+								</div>
+								<div class="col-4">
+									<div class="mb-3">
+										<label for="email" class="form-label">Email</label>
+										<input type="email" class="form-control" name="email" id="email" placeholder="<%= userdata.email %>" form="modify<%= userdata.username %>">
+									</div>
+									<div class="mb-3">
+										<label for="pawo" class="form-label">Password</label>
+										<input type="password" class="form-control" name="password" id="password" disabled>
+									</div>
+								</div>
+								<div class="col-2 h-100 text-center">
+									<button type="submit" class="btn btn-warning align-self-start mx-auto mt-3" form="delete<%= userdata.username %>">Delete</button>
+									<button type="submit" class="btn btn-success align-self-end mx-auto mt-3" form="modify<%= userdata.username %>">Modify</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				<% }; %>
+			<% }); %>
+		</div>
+	</div>
+</div>
+
+
+<%- include ('partials/footer') %>

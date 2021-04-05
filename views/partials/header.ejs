@@ -8,7 +8,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" href="https://i.imgur.com/Y0kfNjN.png"	type="image/icon type">
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-		<link href="public/assets/cmstyles.css" rel="stylesheet" type="text/css" />
+		<link href="/public/assets/cmstyles.css" rel="stylesheet" type="text/css" />
 		<script src="https://kit.fontawesome.com/93d8c6e6c4.js" crossorigin="anonymous"></script>
 		<title>INFO2413-T5</title>
 	</head>
@@ -17,7 +17,12 @@
 			<!-- Account details above navbar --> <!--FIX THIS PLEASE-->
 			<div class="row">
 				<div class="col-12 mx-auto mt-3 pt-3">
-					<p class="text-end fw-light mb-0">EJS goes here for login/signup/account summary.</p> <!-- Needs to detect if logged in. If so, shows a link to your account summary and your cart if customer, or your working orders if employee, or orders to deal with if admin.-->
+					<p class="text-end fw-light mb-0">
+				<% if (locals.user) { if(locals.isLogged){ %>
+					<a href="/account">Account Settings</a> or <a href="/logout">Logout</a> <% }} else {%>
+					<a href="/login">Login</a> or <a href="/register">Register</a>
+				<% }; %>
+					</p> <!-- Needs to detect if logged in. If so, shows a link to your account summary and your cart if customer, or your working orders if employee, or orders to deal with if admin.-->
 				</div>
 			</div>
 
@@ -26,7 +31,7 @@
 				<div class="col-12">
 					<nav class="navbar navbar-dark bg-dark">
 						<div class="container-fluid">
-							<a class="navbar-brand" href="#">INFO2413-T5</a>
+							<a class="navbar-brand" href="/">INFO2413-T5</a>
 							<form class="d-flex">
 								<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
 								<button class="btn btn-outline-success" type="submit">Search</button>

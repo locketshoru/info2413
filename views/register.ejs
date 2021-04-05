@@ -1,0 +1,25 @@
+<!-- File Purpose: register page. -->
+
+<%- include ('partials/header') %>
+
+<p>This is where new users can register.<br/>
+
+    <!-- show any messages that come back with authentication -->
+    <% if (message.length > 0) { %>
+        <div class="alert alert-danger"><%= message %></div>
+    <% } %>
+
+<div class="card mx-auto w-25 mt-4 py-3">
+	<form action="/register" method="POST">
+		<input type="text" name="username" placeholder="Username" class="mx-auto rounded" required> 
+		<input type="email" name="email" placeholder="Email" class="mx-auto rounded" required> 
+		<input type="password" name="password" placeholder="Password" class="mx-auto rounded" required> 
+		<input type="name" name="name" placeholder="Name" class="mx-auto rounded" required> 	
+		<button class="btn btn-outline-secondary mx-auto" type="submit" id="login">Register</button> 
+	</form>
+</div>
+    <p>Already have an account? <a href="/login">Login</a></p>
+    <p>Or go <a href="/">home</a>.</p>
+
+
+<%- include ('partials/footer') %>

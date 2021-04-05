@@ -1,10 +1,3 @@
-npm install ejs
-npm install express
-npm install mongoose
-npm install body-parser
-npm install passport passport-local
-npm install passport-local-mongoose
-
 //this file can be called whatever we need it to be .js for the moment any place where I used .get doesn't contain a file name immediately
 //setting the variables for the languages
 
@@ -21,27 +14,27 @@ var user = require("./models/user");
 //end
 
 //abreviation of project (use app as test name)  
-var = express();
-.set("view engine", "ejs");
-.use(bodyParser.urlencoded( extended: true }));
+var express = express();
+app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded(extended));
 
-.use(passport.initialize());
-.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 passport.use(new localPass(user.authenticate())); 
 passport.serializeUser(user.serializeUser()); 
 passport.deserializeUser(user.deserializeUser()); 
 
  
-.get("/", function (req, res) { 
-res.render("home"); 
+app.get("/", function (req, res) { 
+	res.render("home"); 
 }); 
 
-get("/register", function (req, res) { 
-res.render("register"); 
+app.get("/register", function (req, res) { 
+	res.render("register"); 
 }); 
   
-.post("/register", function (req, res) { 
+app.post("/register", function (req, res) { 
 var username = req.body.username 
 var password = req.body.password 
 user.register(new user({ username: username }), 
@@ -59,11 +52,11 @@ user.register(new user({ username: username }),
 }); 
   
 
-.get("/login", function (req, res) { 
+app.get("/login", function (req, res) { 
     res.render("login"); 
 }); 
   
-.post("/login", passport.authenticate("local", { 
+app.post("/login", passport.authenticate("local", { 
     successRedirect: "/secret", 
     failRedirect: "/login"
 }), 
@@ -72,7 +65,7 @@ function (req, res) {
   res.render("login");
 }); 
    
-.get("/logout", function (req, res) { 
+app.get("/logout", function (req, res) { 
     req.logout(); 
     res.redirect("/"); 
 }); 
@@ -80,9 +73,9 @@ function (req, res) {
 function isLoggedIn(req, res, next) { 
     if (req.isAuthenticated()) return next(); 
     res.redirect("/login"); 
-} 
+};
   
 var port = process.env.PORT || 2000; 
-.listen(port, function () { 
-    console.log("Booted up."); 
+app.listen(port, function () { 
+    console.log("Booted up login."); 
 });

@@ -1,6 +1,6 @@
 <!-- File Purpose: Account summary and details. -->
-	
-<%- include ('partials/header') %>
+
+<%- include ('partials/header', {user: user, isLogged: isLogged}) %>
 
 This is the account page. All will be capable of viewing and changing their details - email, password, username, and avatar. Customers can also view their order history here, but can't actually do anything about it. Employees can see their order history here as well by the orders they've handled. Admins can do the same, you get the idea, and can also generate reports here, sent to the email on file.
 Slingsby will code this in later and then someone else can add in the Mongo tags he needs to be using. 
@@ -9,35 +9,41 @@ Slingsby will code this in later and then someone else can add in the Mongo tags
 	<div class="col-4"> <!-- Avatar. -->
 		<form method="POST" action="/account/edit/avatar">
 			<div class="text-center">
-				<img src="<%= account.avatar %>" class="avatar avatar-full mb-4">
+				<img src="<% if (user.avatar){user.avatar} else {%>https://i.imgur.com/17COUic.png<% }; %>" style="width:200px;height:200px">
 			</div>
 			<div class="text-center">
 				<div class="row">
 					<div class="col-12 mb-1">
-						<label><input type="file" name="avatar" class="form-control-file btn btn-secondary" accept="image/*"></label>
+						<label><input class="form-control mb-1" name="avatar" type="text" title="Avatar Link..."></label>
 					</div>
 				</div>
 			</div>
-			<input class="btn btn-primary form-control" type="submit" value="Upload Avatar">
+			<input class="btn btn-primary form-control" type="submit" value="Upload Avatar Link">
 		</form>
 	</div>	
 	<div class="col-8">
 		<h4>Account Details</h4>
 		<hr>
 		<form method="POST" action="account/edit" class="panel">
-			<input class="form-control" disabled name="name" type="text" value="<%= account.name %>" id="name" />
-			<input class="form-control" disabled name="username" type="text" value="<%= account.username %>" id="username">
+			<div class="form-group">
+				<label for="shipaddr_old">Display Name</label>
+			<input class="form-control" disabled name="name" type="text" value="<%= user.name %>" id="name" />
+			</div>
+			<div class="form-group">
+				<label for="shipaddr_old">Username</label>
+			<input class="form-control" disabled name="username" type="text" value="<%= user.username %>" id="username">
+			</div><% if (user.role == 'customer'){%>
 			<div class="form-group">
 				<label for="shipaddr_old">Current Shipping Address</label>
-				<input class="form-control" disabled name="shipaddr" type="text" value="<%= account.shipaddr %>" id="shipaddr">
+				<input class="form-control" disabled name="shipaddr" type="text" value="<%= user.shipaddr %>" id="shipaddr">
 			</div>
 			<div class="form-group">
 				<label for="password_new">New Shipping Address</label>
 				<input class="form-control mb-1" name="shipaddr" type="text" value="">
-			</div>
+			</div><% }; %>
 			<div class="form-group">
 				<label for="email_old">Current Email Address</label>
-				<input class="form-control" disabled name="email" type="email" value="<%= account.email %>" id="email">
+				<input class="form-control" disabled name="email" type="email" value="<%= user.email %>" id="email">
 			</div>
 			<div class="form-group">
 				<label for="email_new">New Email Address</label>
@@ -50,30 +56,30 @@ Slingsby will code this in later and then someone else can add in the Mongo tags
 	</div>
 </div>
 
-<!-- This row should ONLY appear to administrators, and should also work. -->
+<% if (user.role == 'admin'){%>
 <div class="row mt-5 text-end">
-	<a>Generate Monthly Report</a>
+	<a>Generate Monthly Report</a> or <a href="/eacc">Edit Accounts</a>
 </div>
-<!-- -->
+<% }; %>
 
 <div class="row">
 	<% orders.forEach(function(order){ %> <!-- Right now this generates all orders ever. Someone else fix this. -->
-<div class="row my-3">
-	<div class="card border-1 rounded-1">
-		<div class="row">
-			<div class="col-3">
-				<h5 class="card-title"><%= order._id %></h5>
-			</div>
-			<div class="col-9">
-			  <div class="card-body">
-			    <h5 class="card-title"><%= order.title %></h5>
-			    <p class="card-text" style="font-size:0.8rem"><%= order.description %></p>
-			  </div>
+	<div class="row my-3">
+		<div class="card border-1 rounded-1">
+			<div class="row">
+				<div class="col-3">
+					<h5 class="card-title"><%= order._id %></h5>
+				</div>
+				<div class="col-9">
+					<div class="card-body">
+						<h5 class="card-title"><%= order.title %></h5>
+						<p class="card-text" style="font-size:0.8rem"><%= order.description %></p>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<% }); %>
+	<% }); %>
 </div>
 
 <%- include ('partials/footer') %>

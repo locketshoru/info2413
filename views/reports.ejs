@@ -1,0 +1,23 @@
+
+<%- include ('partials/header') %>
+
+async function printEmployeeOrderCount(client, sum) {
+
+    const pipeline = [
+        {
+            _id: "$cashier",
+            employeeOrderCount: {
+              $sum:sum
+            }
+          }
+    ];
+
+    const aggCursor = client.db("TestDB").collection("orders").aggregate(pipeline);
+
+    await aggCursor.forEach( orders => {
+        console.log(`${orders.cashier}: ${sum.sum}`);
+    });
+
+}
+
+<%- include ('partials/footer') %>
