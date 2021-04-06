@@ -27,13 +27,17 @@ async function printEmployeeOrderCount(client) { // Function call, the bread and
   const pipeline = [
   {
     '$group': {
-      '_id': '$cashier',
+      '_id': '$cashier', 
       'employeeOrderCount': {
         '$sum': 1
       }
     }
+  }, {
+    '$sort': {
+      'cashier': 1
+    }
   }
-] 
+]
   // Make sure to build this part in MongoDB Atlas / MongoDB Compass or you might be struggling for a while. Instructions below VVVVVVV
   // 1. select the database > collection > aggregations tab
   // 2. play around with stages until you get the result you want
@@ -72,15 +76,19 @@ async function printTotalSales(client) {
 async function printTotalSalesByEmployee(client) {
 	
 	const pipeline = [
-		{
-			'$group': {
-				'_id': '$cashier',
-				'employeeSalesIndividual': {
-					'$sum': '$orderTotal'
-				}
-			}
-		}
-	]
+  {
+    '$group': {
+      '_id': '$cashier', 
+      'employeeSalesIndividual': {
+        '$sum': '$orderTotal'
+      }
+    }
+  }, {
+    '$sort': {
+      'cashier': 1
+    }
+  }
+]
   const aggCursor = client.db("TestDB").collection("orders").aggregate(pipeline); // we need this so that we can find the database, collection, and the aggregate.
 
   await aggCursor.forEach( orders => {

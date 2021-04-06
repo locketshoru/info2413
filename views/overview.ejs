@@ -1,7 +1,154 @@
 <!-- File Purpose: view order page. -->
 
+<!-- 
+THINGS TO DO ON THIS PAGE:
+
+-View all data, be able to post to orderedit to change details.
+-This needs to display item data, like desc and photo and whatnot. Copy from /ibrowse.
+
+-->
+
 <%- include ('partials/header') %>
 
 This is where you can view a specific order. Customers can only view their own orders, admins/employees can view all orders. From here, customers can cancel an order if the status says they can (otherwise the button is disabled), and admins/employees can edit the order. Post requests go out here.
+
+<div class="row my-3">
+			<div class="card border-1 rounded-1">
+				<div class="row">
+					<div class="col-7">
+						<div class="card-body">
+							<h5 class="card-title"><a href="/overview/<%= order._id %>"><%= order._id %> - <%= order.customer %></a></h5>
+							<p class="card-text" style="font-size:0.8rem"><%= order.item1Title %><br/><%= order.item2Title %><br/><%= order.item3Title %><br/><%= order.item4Title %><br/><%= order.item5Title %><br/></p>
+						</div>
+					</div>
+					<div class="col-3">
+						<h5 class="card-title"><%= order.orderTotal %><br><br><br><%= order.status %></h5>
+					</div>
+					<div class="col-2 text-center h-100 py-3">
+						<% if(user.role == "employee"){ %>
+							<form action="/overview/<%= order._id %>" id="/overview/<%= order._id %>" method="POST" >
+								<button class="btn btn-outline-secondary"type="submit"  name="status" id="status" value="<%= order.status%>" form="/overview/<%= order._id %>">Next Stage</button>
+							</form>
+						<% } else if(user.role == "admin"){ %> <!--Admins only -->
+							<form action="/orderedit/<%= order._id %>" method="POST" >
+								<button class="btn btn-outline-secondary"type="submit">Edit Details</button>
+							</form>
+						<% }; %>
+						<% if(user.role == "customer" && order.status == "New"){ %>
+							<form action="/order/<%= order._id %>" method="POST" >
+								<button class="btn btn-outline-secondary"type="submit">Delete</button>
+							</form>
+						<% }; %>
+					</div>
+				</div>
+			</div>
+	</div>
+
+	<% if (order.item1Title != undefined){ %> 
+<div class="row my-3">
+	<div class="card border-1 rounded-1">
+		<div class="row">
+			<div class="col-3">
+				<img src="<%= order.item1Image %>" style="width:100%;height:100%;max-width:250px;max-height:200px;"/>
+			</div>
+			<div class="col-7">
+			  <div class="card-body">
+			    <h5 class="card-title"><%= order.item1Title %></h5>
+			    <p class="card-text" style="font-size:0.8rem"><%= order.item1Description %></p>
+			  </div>
+			</div>
+			<div class="col-2 text-center h-100 py-3">
+			    <p class="card-title mb-5" style="font-size:0.8rem"><%= order.item1Price %></p>
+			    <p class="card-title" style="font-size:0.8rem"><%= order.item1Quantity %></p>
+			</div>
+		</div>
+	</div>
+</div>
+<% }; %>
+<% if (order.item2Title != undefined){ %> 
+<div class="row my-3">
+	<div class="card border-1 rounded-1">
+		<div class="row">
+			<div class="col-3">
+				<img src="<%= order.item2Image %>" style="width:100%;height:100%;max-width:250px;max-height:200px;"/>
+			</div>
+			<div class="col-7">
+			  <div class="card-body">
+			    <h5 class="card-title"><%= order.item2Title %></h5>
+			    <p class="card-text" style="font-size:0.8rem"><%= order.item2Description %></p>
+			  </div>
+			</div>
+			<div class="col-2 text-center h-100 py-3">
+			    <p class="card-title mb-5" style="font-size:0.8rem"><%= order.item2Price %></p>
+			    <p class="card-title" style="font-size:0.8rem"><%= order.item2Quantity %></p>
+			</div>
+		</div>
+	</div>
+</div>
+<% }; %>
+<% if (order.item3Title != undefined){ %> 
+<div class="row my-3">
+	<div class="card border-1 rounded-1">
+		<div class="row">
+			<div class="col-3">
+				<img src="<%= order.item3Image %>" style="width:100%;height:100%;max-width:250px;max-height:200px;"/>
+			</div>
+			<div class="col-7">
+			  <div class="card-body">
+			    <h5 class="card-title"><%= order.item3Title %></h5>
+			    <p class="card-text" style="font-size:0.8rem"><%= order.item3Description %></p>
+			  </div>
+			</div>
+			<div class="col-2 text-center h-100 py-3">
+			    <p class="card-title mb-5" style="font-size:0.8rem"><%= order.item3Price %></p>
+			    <p class="card-title" style="font-size:0.8rem"><%= order.item3Quantity %></p>
+			</div>
+		</div>
+	</div>
+</div>
+<% }; %>
+<% if (order.item4Title != undefined){ %> 
+<div class="row my-3">
+	<div class="card border-1 rounded-1">
+		<div class="row">
+			<div class="col-3">
+				<img src="<%= order.item4Image %>" style="width:100%;height:100%;max-width:250px;max-height:200px;"/>
+			</div>
+			<div class="col-7">
+			  <div class="card-body">
+			    <h5 class="card-title"><%= order.item4Title %></h5>
+			    <p class="card-text" style="font-size:0.8rem"><%= order.item4Description %></p>
+			  </div>
+			</div>
+			<div class="col-2 text-center h-100 py-3">
+			    <p class="card-title mb-5" style="font-size:0.8rem"><%= order.item4Price %></p>
+			    <p class="card-title" style="font-size:0.8rem"><%= order.item4Quantity %></p>
+			</div>
+		</div>
+	</div>
+</div>
+<% }; %>
+<% if (order.item5Title != undefined){ %> 
+<div class="row my-3">
+	<div class="card border-1 rounded-1">
+		<div class="row">
+			<div class="col-3">
+				<img src="<%= order.item5Image %>" style="width:100%;height:100%;max-width:250px;max-height:200px;"/>
+			</div>
+			<div class="col-7">
+			  <div class="card-body">
+			    <h5 class="card-title"><%= order.item5Title %></h5>
+			    <p class="card-text" style="font-size:0.8rem"><%= order.item5Description %></p>
+			  </div>
+			</div>
+			<div class="col-2 text-center h-100 py-3">
+			    <p class="card-title mb-5" style="font-size:0.8rem"><%= order.item5Price %></p>
+			    <p class="card-title" style="font-size:0.8rem"><%= order.item5Quantity %></p>
+			</div>
+		</div>
+	</div>
+</div>
+<% } else {}; %>
+
 
 <%- include ('partials/footer') %>

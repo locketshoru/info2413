@@ -23,17 +23,18 @@ mongoose.connect(configDB.url, { useUnifiedTopology: true, useNewUrlParser: true
 require('./config/passport.js')(passport);
 app.use(morgan('dev'));
 app.use(cookieParser());
-app.use(bodyParser());
+//app.use(bodyParser());
 app.set('view engine', 'ejs');
 app.use('/public', express.static('public'));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.get("public/assets/cmstyles.css", function(req, res){
 	res.render("public/assets/cmstyles.css");
 });
 
 //this is required passport stuff touch and I will kill you -slingsby
-app.use(session({ secret: 'sweetmercifulboyogivesusmorehopethantoddhoward' }));
-app.use(passport.initialize());
+app.use(session({ secret: 'sweetmercifulboyogivesusmorehopethantoddhoward' })); // Our boy tood howard
+app.use(passport.initialize()); 
 app.use(passport.session());
 app.use(flash());
 

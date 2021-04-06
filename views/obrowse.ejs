@@ -1,115 +1,156 @@
 <!-- File Purpose: browse orders page. -->
 
+<!-- 
+THINGS TO DO ON THIS PAGE:
+
+-Make search functional
+-Be able to modify order status
+-Post to orderedit to update details
+
+-->
+
 <%- include ('partials/header') %>
 
 <p>
 	This is where admins/employees only can browse open orders. Closed orders are not viewable in this way. Employees can claim an order by making a change to it before anyone else does, that assigns it to them. Admins can just change stuff. This POSTs to the cart page as well.
 </p>
-<!-- Need to figure out proper order.tags for each respective spot -->
-<!-- Also need to look into figuring out a few things regarding who's ordered what -->
-<% orders.forEach(function(orders, inventories){ %> 
-<div class="row my-3">
-	<div class="card border-1 rounded-1">
-		<div class="row">
-			<div class="col-3">
-				<img style="max-width:125px;max-height:125px" src="
-					<% var compare1 = String(orders.item1) === String(inventories._id); %>
-					<% var compare2 = String(orders.item2) === String(inventories._id); %>
-					<% var compare3 = String(orders.item3) === String(inventories._id); %>
-					<% var compare4 = String(orders.item4) === String(inventories._id); %>
-					<% var compare5 = String(orders.item5) === String(inventories._id); %>
-					<% if (compare1 = true) %>
-					<% { %>
-						<%= inventories.item1Image %>
-					<% } %>
-					<% if (compare2 = true) %>
-					<% { %>
-						<%= inventories.item2Image %>
-					<% } %>
-					<% if (compare3 = true) %>
-					<% { %>
-						<%= inventories.item3Image %>
-					<% } %>
-					<% if (compare4 = true) %>
-					<% { %>
-						<%= inventories.item4Image %>
-					<% } %>
-					<% if (compare5 = true) %>
-					<% { %>
-						<%= inventories.item5Image %>
-					<% } %>" />
-			</div>
-			<div class="col-7">
-			  <div class="card-body">
-			    <h5 class="card-title">
-						<% compare1 = String(orders.item1) === String(inventories._id); %>
-						<% compare2 = String(orders.item2) === String(inventories._id); %>
-						<% compare3 = String(orders.item3) === String(inventories._id); %>
-						<% compare4 = String(orders.item4) === String(inventories._id); %>
-						<% compare5 = String(orders.item5) === String(inventories._id); %>
-						<% if (compare1 = true) %>
-						<% { %>
-							<%= orders.item1Title %>
-						<% } %>
-						<% if (compare2 = true) %>
-						<% { %>
-							<%= orders.item2Title %>
-						<% } %>
-						<% if (compare3 = true) %>
-						<% { %>
-							<%= orders.item3Title %>
-						<% } %>
-						<% if (compare4 = true) %>
-						<% { %>
-							<%= orders.item4Title %>
-						<% } %>
-						<% if (compare5 = true) %>
-						<% { %>
-							<%= orders.item5Title %>
-						<% } %></h5>
-			    <p class="card-text" style="font-size:0.8rem">
-						<% compare1 = String(orders.item1) === String(inventories._id); %>
-						<% compare2 = String(orders.item2) === String(inventories._id); %>
-						<% compare3 = String(orders.item3) === String(inventories._id); %>
-						<% compare4 = String(orders.item4) === String(inventories._id); %>
-						<% compare5 = String(orders.item5) === String(inventories._id); %>
-						<% if (compare1 = true) %>
-						<% { %>
-							<%= orders.item1Description %>
-						<% } %>
-						<% if (compare2 = true) %>
-						<% { %>
-							<%= orders.item2Description %>
-						<% } %>
-						<% if (compare3 = true) %>
-						<% { %>
-							<%= orders.item3Description %>
-						<% } %>
-						<% if (compare4 = true) %>
-						<% { %>
-							<%= orders.item4Description %>
-						<% } %>
-						<% if (compare5 = true) %>
-						<% { %>
-							<%= orders.item5Description %>
-						<% } %>
-				</p>
-			  </div>
-			</div>
-			<div class="col-2 text-center h-100 py-3">
-				<form action="/orderedit" method="POST" >
-					<select class="form-select w-100 mx-auto mb-2" id="editorder">
-						<option selected value="0">New</option>
-						<option value="1">Working On</option>
-						<option value="2">Partially Done</option>
-						<option value="3">Completed</option>
-					</select>
-					<button class="btn btn-outline-secondary"type="submit">Claim Order</button>
-				</form>
+
+<br><br><hr><br><br>
+
+
+
+		<div class="container">
+				<% if(user.role === "admin"){ %>
+					<div class="row">
+						<div class="col-10 card rounded pt-2 mb-2">
+							<form action="/overview" method="POST">
+								<div class="row">
+									<div class="col-5">
+										<div class="mb-3">
+											<label for="dina" class="form-label">Customer</label>
+												<select class="form-select" name="customer" id="customer">
+													<option selected>Select...</option>
+													<% userdata.forEach(function(userdata){ %>
+													<% if (userdata.role == 'customer'){ %><option value="<%= userdata.username %>"><%= userdata.username %></option>
+													<% }}); %>
+												</select>
+										</div>
+										<div class="mb-3">
+											<label for="ione" class="form-label">Item One</label>
+											<div class="input-group">
+												<select class="form-select" name="item1Title" id="item1Title">
+													<option selected>None</option>
+													<% inventories.forEach(function(inventories){ %><option value="<%= inventories.title %>"><%= inventories.title %></option><% }); %>
+												</select>
+												<select class="form-select" name="item1Quantity" id="item1Quantity">
+													<option selected>0</option>
+													<option value="1">1</option>
+													<option value="2">2</option>
+													<option value="3">3</option>
+													<option value="4">4</option>
+													<option value="5">5</option>
+												</select>
+											</div>
+										</div>
+										<div class="mb-3">
+											<label for="itwo" class="form-label">Item Two</label>
+											<div class="input-group">
+												<select class="form-select" name="item2Title" id="item2Title">
+													<option selected>None</option>
+													<% inventories.forEach(function(inventories){ %><option value="<%= inventories.title %>"><%= inventories.title %></option><% }); %>
+												</select>
+												<select class="form-select" name="item2Quantity" id="item2Quantity">
+													<option selected>0</option>
+													<option value="1">1</option>
+													<option value="2">2</option>
+													<option value="3">3</option>
+													<option value="4">4</option>
+													<option value="5">5</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="col-5">
+										<div class="mb-3">
+											<label for="ithree" class="form-label">Item Three</label>
+											<div class="input-group">
+												<select class="form-select" name="item3Title" id="item3Title">
+													<option selected>None</option>
+													<% inventories.forEach(function(inventories){ %><option value="<%= inventories.title %>"><%= inventories.title %></option><% }); %>
+												</select>
+												<select class="form-select" name="item3Quantity" id="item3Quantity">
+													<option selected>0</option>
+													<option value="1">1</option>
+													<option value="2">2</option>
+													<option value="3">3</option>
+													<option value="4">4</option>
+													<option value="5">5</option>
+												</select>
+											</div>
+										</div>
+										<div class="mb-3">
+											<label for="ifour" class="form-label">Item Four</label>
+											<div class="input-group">
+												<select class="form-select" name="item4Title" id="item4Title">
+													<option selected>None</option>
+													<% inventories.forEach(function(inventories){ %><option value="<%= inventories.title %>"><%= inventories.title %></option><% }); %>
+												</select>
+												<select class="form-select" name="item4Quantity" id="item4Quantity">
+													<option selected>0</option>
+													<option value="1">1</option>
+													<option value="2">2</option>
+													<option value="3">3</option>
+													<option value="4">4</option>
+													<option value="5">5</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="col-2 h-100 text-center">
+										<div class="mb-3">
+											<label for="status" class="form-label">Status</label>
+											<input type="status" class="form-control" name="status" id="status" placeholder="New" disabled>
+										</div>
+										<button type="submit" class="btn btn-success align-self-start mx-auto mt-3">Add</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+			<% }; %>
+		</div>
+
+<br><br><hr><br><br>
+
+<% orders.forEach(function(orders, inventories){ %>
+	<% if(orders.status != "Completed"){ %>
+		<div class="row my-3">
+			<div class="card border-1 rounded-1">
+				<div class="row">
+					<div class="col-7">
+						<div class="card-body">
+							<h5 class="card-title"><a href="/overview/<%= orders._id %>"><%= orders._id %></a> - <%= orders.customer %></h5>
+							<p class="card-text" style="font-size:0.8rem"><%= orders.item1Title %><br/><%= orders.item2Title %><br/><%= orders.item3Title %><br/><%= orders.item4Title %><br/><%= orders.item5Title %><br/></p>
+						</div>
+					</div>
+					<div class="col-3">
+						<h5 class="card-title"><%= orders.orderTotal %><br><br><br><%= orders.status %></h5>
+					</div>
+					<div class="col-2 text-center h-100 py-3">
+						<% if(user.role == "employee"){ %>
+							<form action="/overview/<%= orders._id %>" id="/overview/<%= orders._id %>" method="POST" >
+								<button class="btn btn-outline-secondary"type="submit"  name="status" id="status" value="<%= orders.status%>" form="/overview/<%= orders._id %>">Next Stage</button>
+							</form>
+						<% } else { %> <!--Admins only -->
+							<form action="/orderedit/<%= orders._id %>" method="POST" >
+								<button class="btn btn-outline-secondary"type="submit">Edit Details</button>
+							</form>
+						<% }; %>
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
-</div>
+	<% }; %>
 <% }); %>
 
 <%- include ('partials/footer') %>

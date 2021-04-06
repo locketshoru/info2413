@@ -2,8 +2,6 @@
 
 <%- include ('partials/header') %>
 
-This is where everything will go.
-
 <div class="container">
 	<div class="row">
 		<div class="col-10 card rounded pt-2 mb-2">
@@ -53,7 +51,7 @@ This is where everything will go.
 					<div class="row">
 						<div class="col-10 card rounded pt-2 mb-2">
 							<form id="modify<%= userdata.username %>" action="/users/<%= userdata._id %>" method="POST"></form>
-							<form id="delete<%= userdata.username %>" action="/<%= userdata._id %>" method="POST"></form>
+							<form id="delete<%= userdata.username %>" action="/deluser/<%= userdata._id %>" method="POST"></form>
 								<div class="row">
 									<div class="col-2">
 										<img src="<% if (userdata.avatar){userdata.avatar} else {%>https://i.imgur.com/17COUic.png<% }; %>" style="width:80%;height:80%">
@@ -106,7 +104,7 @@ This is where everything will go.
 					<div class="row">
 						<div class="col-10 card rounded pt-2 mb-2">
 							<form id="modify<%= userdata.username %>" action="/users/<%= userdata._id %>" method="POST"></form>
-							<form id="delete<%= userdata.username %>" action="/<%= userdata._id %>" method="POST"></form>
+							<form id="delete<%= userdata.username %>" action="/deluser/<%= userdata._id %>" method="POST"></form>
 							<div class="row">
 								<div class="col-2">
 									<img src="<% if (userdata.avatar){userdata.avatar} else {%>https://i.imgur.com/17COUic.png<% }; %>" style="width:80%;height:80%">

@@ -1,5 +1,4 @@
-module.exports = function(app, passport) {	
-		// Role permission functions.
+	// Role permission functions.
 	
 	function isLoggedIn(req, res, next) {
 			if (req.isAuthenticated())
@@ -27,5 +26,9 @@ module.exports = function(app, passport) {
 		}
 		next();
 	}
-	
-}
+
+
+module.exports.isLoggedIn = isLoggedIn;
+module.exports.requirePaid = requirePaid;
+module.exports.requireEmployee = requireEmployee;
+module.exports.requireAdmin = requireAdmin;

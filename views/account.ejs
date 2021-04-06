@@ -1,30 +1,27 @@
 <!-- File Purpose: Account summary and details. -->
 
+<!-- 
+THINGS TO DO ON THIS PAGE:
+
+-Be able to upload avatar
+-Be able to change user information
+-If employee, only show last five orders completed. This is by a if order.cashier == user that currently isn't working.
+
+-->
+
 <%- include ('partials/header', {user: user, isLogged: isLogged}) %>
 
-This is the account page. All will be capable of viewing and changing their details - email, password, username, and avatar. Customers can also view their order history here, but can't actually do anything about it. Employees can see their order history here as well by the orders they've handled. Admins can do the same, you get the idea, and can also generate reports here, sent to the email on file.
-Slingsby will code this in later and then someone else can add in the Mongo tags he needs to be using. 
 
+		<form method="POST" action="/avatar/<%= user._id %>">
 <div class="row">
 	<div class="col-4"> <!-- Avatar. -->
-		<form method="POST" action="/account/edit/avatar">
-			<div class="text-center">
-				<img src="<% if (user.avatar){user.avatar} else {%>https://i.imgur.com/17COUic.png<% }; %>" style="width:200px;height:200px">
-			</div>
-			<div class="text-center">
-				<div class="row">
-					<div class="col-12 mb-1">
-						<label><input class="form-control mb-1" name="avatar" type="text" title="Avatar Link..."></label>
-					</div>
-				</div>
-			</div>
-			<input class="btn btn-primary form-control" type="submit" value="Upload Avatar Link">
-		</form>
+		<div class="text-center">
+			<img src="https://i.imgur.com/17COUic.png" style="width:200px;height:200px">
+		</div>
 	</div>	
 	<div class="col-8">
 		<h4>Account Details</h4>
 		<hr>
-		<form method="POST" action="account/edit" class="panel">
 			<div class="form-group">
 				<label for="shipaddr_old">Display Name</label>
 			<input class="form-control" disabled name="name" type="text" value="<%= user.name %>" id="name" />
@@ -52,34 +49,61 @@ Slingsby will code this in later and then someone else can add in the Mongo tags
 			<div class="text-right">
 				<input class="btn btn-primary" type="submit" value="Change Details">
 			</div>
-		</form>
 	</div>
 </div>
+		</form>
 
 <% if (user.role == 'admin'){%>
 <div class="row mt-5 text-end">
-	<a>Generate Monthly Report</a> or <a href="/eacc">Edit Accounts</a>
+	<p>
+		<a href="">Generate Monthly Report</a> or <a href="/eacc">Edit Accounts</a>
+	</p>
 </div>
 <% }; %>
 
-<div class="row">
-	<% orders.forEach(function(order){ %> <!-- Right now this generates all orders ever. Someone else fix this. -->
-	<div class="row my-3">
-		<div class="card border-1 rounded-1">
-			<div class="row">
-				<div class="col-3">
-					<h5 class="card-title"><%= order._id %></h5>
-				</div>
-				<div class="col-9">
-					<div class="card-body">
-						<h5 class="card-title"><%= order.title %></h5>
-						<p class="card-text" style="font-size:0.8rem"><%= order.description %></p>
+<% if (user.role == 'customer'){%>
+	<div class="row">
+		<% orders.forEach(function(order){ %>
+			<% if(order.customer === user){ %>
+				<div class="row mt-3 mb-3">
+					<div class="card border-1 rounded-1">
+						<div class="row">
+							<div class="col-9">
+								<div class="card-body">
+									<h5 class="card-title"><%= order._id %></h5>
+									<p class="card-text" style="font-size:0.8rem"><%= order.item1Title %><br/><%= order.item2Title %><br/><%= order.item3Title %><br/><%= order.item4Title %><br/><%= order.item5Title %><br/></p>
+								</div>
+							</div>
+							<div class="col-3">
+								<h5 class="card-title"><%= order.orderTotal %></h5>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-		</div>
+			<% }; %>
+		<% }).sort({$natural:-1}).limit(5); %>
 	</div>
-	<% }); %>
-</div>
+<% }; %>
+<% if (user.role == 'employee'){%>
+	<div class="row">
+		<% orders.forEach(function(order){ %>
+				<div class="row my-3">
+					<div class="card border-1 rounded-1">
+						<div class="row">
+							<div class="col-9">
+								<div class="card-body">
+									<h5 class="card-title"><%= order._id %></h5>
+									<p class="card-text" style="font-size:0.8rem"><%= order.item1Title %><br/><%= order.item2Title %><br/><%= order.item3Title %><br/><%= order.item4Title %><br/><%= order.item5Title %><br/></p>
+								</div>
+							</div>
+							<div class="col-3">
+								<h5 class="card-title"><%= order.orderTotal %></h5>
+							</div>
+						</div>
+					</div>
+				</div>
+		<% }); %>
+	</div>
+<% }; %>
 
 <%- include ('partials/footer') %>

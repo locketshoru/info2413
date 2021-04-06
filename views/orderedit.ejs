@@ -1,13 +1,123 @@
 <!-- File Purpose: cart, view / edit / delete order page. -->
-
+<!-- 
+THINGS TO DO ON THIS PAGE:
+-This needs to actually be coded.
+-->
 <%- include ('partials/header') %>
 
-This is the active cart for a customer can go. It is also accessed by employees when changing the status of an order, and also when an admin fiddles with the details of an order. This will be versatile, and accessed in these such ways:
--By a customer, viewing their current active order. They can't place an order when one under their name is still in the system.
--By an employee, updating the status of an order. Parts of the orders that they can't change will be disabled, but viewable.
--By an administrator updating the details of an order.
-
-Customers can access this page by viewing their cart. If they don't have an order, it will simply say so. If they have a pending order, they can also submit it here.
-Admins and employees can access this page via a post request on an order to edit that order. If they try to do so w/o a post request handing over the order ID, they'll get an error.
-
+		<div class="container">
+					<div class="row">
+						<div class="col-10 card rounded pt-2 mb-2">
+							<form action="/ordersave/<%= order._id%>" method="POST">
+								<div class="row">
+									<div class="col-5">
+										<div class="mb-3">
+											<label for="dina" class="form-label">Customer</label>
+												<select class="form-select" name="customer" id="customer">
+													<option selected value=""><%= order.customer%></option>
+													<% userdata.forEach(function(userdata){ %>
+													<% if (userdata.role == 'customer'){ %><option value="<%= userdata.username %>"><%= userdata._id %></option>
+													<% }}); %>
+												</select>
+										</div>
+										<div class="mb-3">
+											<label for="ione" class="form-label">Item One</label>
+											<div class="input-group">
+												<select class="form-select" name="item1Title" id="item1Title">
+													<option selected value=""><%= order.item1Title %></option>
+													<% inventories.forEach(function(inventories){ %><option value="<%= inventories.title %>"><%= inventories.title %></option><% }); %>
+												</select>
+												<select class="form-select" name="item1Quantity" id="item1Quantity">
+													<option selected><%= order.item1Quantity%></option>
+													<option value="1">1</option>
+													<option value="2">2</option>
+													<option value="3">3</option>
+													<option value="4">4</option>
+													<option value="5">5</option>
+												</select>
+											</div>
+										</div>
+										<div class="mb-3">
+											<label for="itwo" class="form-label">Item Two</label>
+											<div class="input-group">
+												<select class="form-select" name="item2Title" id="item2Title">
+													<option value="" value="" selected><%= order.item2Title%></option>
+													<% inventories.forEach(function(inventories){ %><option value="<%= inventories.title %>"><%= inventories.title %></option><% }); %>
+												</select>
+												<select class="form-select" name="item2Quantity" id="item2Quantity">
+													<option selected value=""><%= order.item2Quantity%></option>
+													<option value="1">1</option>
+													<option value="2">2</option>
+													<option value="3">3</option>
+													<option value="4">4</option>
+													<option value="5">5</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="col-5">
+										<div class="mb-3">
+											<label for="ithree" class="form-label">Item Three</label>
+											<div class="input-group">
+												<select class="form-select" name="item3Title" id="item3Title">
+													<option value="" selected><%= order.item3Title%></option>
+													<% inventories.forEach(function(inventories){ %><option value="<%= inventories.title %>"><%= inventories.title %></option><% }); %>
+												</select>
+												<select class="form-select" name="item3Quantity" id="item3Quantity">
+													<option selected value=""><%= order.item3Quantity%></option>
+													<option value="1">1</option>
+													<option value="2">2</option>
+													<option value="3">3</option>
+													<option value="4">4</option>
+													<option value="5">5</option>
+												</select>
+											</div>
+										</div>
+										<div class="mb-3">
+											<label for="ifour" class="form-label">Item Four</label>
+											<div class="input-group">
+												<select class="form-select" name="item4Title" id="item4Title">
+													<option value="" value="" selected><%= order.item4Title%></option>
+													<% inventories.forEach(function(inventories){ %><option value="<%= inventories.title %>"><%= inventories.title %></option><% }); %>
+												</select>
+												<select class="form-select" name="item4Quantity" id="item4Quantity">
+													<option selected value=""><%= order.item4Quantity%></option>
+													<option value="1">1</option>
+													<option value="2">2</option>
+													<option value="3">3</option>
+													<option value="4">4</option>
+													<option value="5">5</option>
+												</select>
+											</div>
+										</div>
+										<div class="mb-3">
+											<label for="ifive" class="form-label">Item Five</label>
+											<div class="input-group">
+												<select class="form-select" name="item5Title" id="item5Title">
+													<option value="" value="" selected><%= order.item5Title%></option>
+													<% inventories.forEach(function(inventories){ %><option value="<%= inventories.title %>"><%= inventories.title %></option><% }); %>
+												</select>
+												<select class="form-select" name="item5Quantity" id="item5Quantity">
+													<option selected value=""><%= order.item5Quantity%></option>
+													<option value="1">1</option>
+													<option value="2">2</option>
+													<option value="3">3</option>
+													<option value="4">4</option>
+													<option value="5">5</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="col-2 h-100 text-center">
+										<div class="mb-3">
+											<label for="status" class="form-label">Status</label>
+											<input type="status" class="form-control" name="status" id="status" placeholder="<%= order.status%>" disabled>
+										</div>
+										<button type="submit" class="btn btn-success align-self-start mx-auto mt-3">Edit</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+		</div>
 <%- include ('partials/footer') %>
