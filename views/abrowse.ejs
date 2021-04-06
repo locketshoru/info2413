@@ -1,0 +1,51 @@
+<!-- File Purpose: browse orders page. -->
+
+<!-- 
+THINGS TO DO ON THIS PAGE:
+
+-Make search functional
+-Be able to modify order status
+-Post to orderedit to update details
+
+-->
+
+<%- include ('partials/header') %>
+
+<p>
+	This is where admins/employees only can browse open orders. Closed orders are not viewable in this way. Employees can claim an order by making a change to it before anyone else does, that assigns it to them. Admins can just change stuff. This POSTs to the cart page as well.
+</p>
+
+<br><br><hr><br><br>
+
+<% orders.forEach(function(orders, inventories){ %>
+	<% if(orders.status != "Completed"){ %>
+		<div class="row my-3">
+			<div class="card border-1 rounded-1">
+				<div class="row">
+					<div class="col-7">
+						<div class="card-body">
+							<h5 class="card-title"><a href="/overview/<%= orders._id %>"><%= orders._id %></a> - <%= orders.customer %></h5>
+							<p class="card-text" style="font-size:0.8rem"><%= orders.item1Title %><br/><%= orders.item2Title %><br/><%= orders.item3Title %><br/><%= orders.item4Title %><br/><%= orders.item5Title %><br/></p>
+						</div>
+					</div>
+					<div class="col-3">
+						<h5 class="card-title"><%= orders.orderTotal %><br><br><br><%= orders.status %></h5>
+					</div>
+					<div class="col-2 text-center h-100 py-3">
+						<% if(user.role == "employee"){ %>
+							<form action="/overview/<%= orders._id %>" id="/overview/<%= orders._id %>" method="POST" >
+								<button class="btn btn-outline-secondary"type="submit"  name="status" id="status" value="<%= orders.status%>" form="/overview/<%= orders._id %>">Next Stage</button>
+							</form>
+						<% } else { %> <!--Admins only -->
+							<form action="/orderedit/<%= orders._id %>" method="POST" >
+								<button class="btn btn-outline-secondary"type="submit">Edit Details</button>
+							</form>
+						<% }; %>
+					</div>
+				</div>
+			</div>
+		</div>
+	<% }; %>
+<% }); %>
+
+<%- include ('partials/footer') %>

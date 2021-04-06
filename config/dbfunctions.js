@@ -27,19 +27,9 @@ async function updateUserAvatar (req, res) { //Accessible from /account and /eac
 	user.save();
 	res.render("index.ejs", {user:req.user,isLogged:rolePermissions.isLoggedIn});
 	}; //modifying user
-	
-/*
-	async function updateOrderInfo (req, res) { //Accessible from /obrowse
-		let order = await Order.findById(req.params.id);
-		order.customer = req.bodys.customer;
-		order.item1Title = req.body.item1Title;
-		order.item1Quantity = req.body.item1Quantity;
-			
-		order.status = 'New';
-		order.save();
-	}
-	*/
-async function updateOrderInfo (input) { //Accessible from /obrowse
+
+
+	async function updateOrderInfo (input) { //Accessible from /obrowse
 		let order = await Order.findById(input.id); //this would be a for loop if I had time
 			if (input.customer != '') {
 				order.customer = input.customer;

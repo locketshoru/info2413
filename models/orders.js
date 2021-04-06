@@ -15,6 +15,10 @@ const orderSchema = mongoose.Schema({
 		type: String,
 		required: true
 	},
+	status: {
+		type: String,
+		required: false
+	},
 	item1: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Inventory',

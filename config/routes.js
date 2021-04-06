@@ -1,11 +1,11 @@
 // app/routes.js
 module.exports = function(app, passport) {
 	
-	var User       = require("../models/users.js"),
-	configDB       = require('../config/database.js'),
-	Inventory      = require("../models/inventories.js"),
-	Order          = require("../models/orders.js"),
-	dbFunctions    = require('./dbfunctions'),
+	var User        = require("../models/users.js"),
+	configDB        = require('../config/database.js'),
+	Inventory       = require("../models/inventories.js"),
+	Order           = require("../models/orders.js"),
+	dbFunctions     = require('./dbfunctions'),
 	rolePermissions = require('./rolepermissions');
 
  app.get('/', function(req, res) {
@@ -186,27 +186,76 @@ module.exports = function(app, passport) {
 	});
 	
 	app.post("/search", function(req,res){ //Basic search by order ID.
-		app.get("/overview", rolePermissions.isLoggedIn, function(req,res){ // view order page
-			Order.findById(req.params.id, function(err, foundOrder){
-				if(err){
-					console.log(err);
-				} else {
-					res.render("overview.ejs", {order: foundOrder,user:req.user,isLogged:rolePermissions.isLoggedIn});
-				}   
-			});
-		});
-	});
-	
-	app.post("/obrowse", function(req,res){ //Advanced search post.
-		Order.find(req.params, function(err, orders){
+		Order.findById(req.body._id, function(err, foundOrder){
 			if(err){
 				console.log(err);
 			} else {
-				res.render("obrowse.ejs", {order: orders,user:req.user,isLogged:rolePermissions.isLoggedIn});
+				res.render("overview.ejs", {order: foundOrder,user:req.user,isLogged:rolePermissions.isLoggedIn});
 			}   
 		});
 	});
+	
+	app.post("/asearchstat", function(req,res){ //Asearch: order status
+		User.find({}, function(err, alluser){
+			Inventory.find({}, function(err, inventories){
+				Order.find({status: req.body.status}, function(err, orders){
+					if(err){
+						console.log(err);
+					} else {
+						res.render("obrowse.ejs", {orders: orders,userdata:alluser,inventories:inventories,user:req.user,isLogged:rolePermissions.isLoggedIn});
+					}
+				});
+			});
+		});
+	})
+	
+	app.post("/asearchname", function(req,res){ //Asearch: customer name
+		User.find({}, function(err, alluser){
+			Inventory.find({}, function(err, inventories){
+				Order.find({customer: req.body.name}, function(err, orders){
+					if(err){
+						console.log(err);
+					} else {
+						res.render("obrowse.ejs", {orders: orders,userdata:alluser,inventories:inventories,user:req.user,isLogged:rolePermissions.isLoggedIn});
+					}
+				});
+			});
+		});
+	})
+	
+	 /* app.post("/asearchemail", function(req,res){ //Asearch: customer email
+		Inventory.find({}, function(err, inventories){
+			Order.find({}, function(err, orders){
+				User.find({email: req.body.email}, function(err, user){
+					//user = user[0];
+					console.log(user + " " + user.username)
+					if(err){
+						console.log(err);
+					} else {
+						res.render("obrowse.ejs", {orders: orders,userdata:user,inventories:inventories,user:req.user,isLogged:rolePermissions.isLoggedIn});
+					}
+				});
+			});
+		});
+	}) */
 
+	app.post("/asearchemail", function(req,res){ //Asearch: customer email
+		Inventory.find({}, function(err, inventories){
+			User.find({email: req.body.email}, function(err, foundUser){
+				foundUser = foundUser[0];
+				console.log(foundUser + " " + foundUser.username)
+				Order.find({customer: foundUser.username}, function(err, orders){
+					if(err){
+						console.log(err);
+					} else {
+						res.render("abrowse.ejs", {orders: orders,userdata:foundUser,inventories:inventories,user:req.user,isLogged:rolePermissions.isLoggedIn});
+					}
+				});
+			});
+		});
+	}) 
+	
+	
 	app.get("/ibrowse", rolePermissions.requirePaid, function(req,res){ // browse items page
 		Inventory.find()
 			.then((result) => {

@@ -9,17 +9,15 @@ THINGS TO DO ON THIS PAGE:
 
 <%- include ('partials/header') %>
 
-This is where everything will go. This is our homepage, and probably will be a fancy business page later.
+INFO2413 Team 5: Project
 
-
+<% if(isLogged){ %>
     <div class="jumbotron text-center mt-4">
-        <h1><span class="fa fa-lock"></span> Node Authentication</h1>
-
         <p>Login or Register with:</p>
 
         <a href="/login" class="btn btn-default text-center"><span class="fa fa-user"></span> Local Login</a>
         <a href="/register" class="btn btn-default text-center"><span class="fa fa-user"></span> Local Signup</a>
     </div>
-
+<% }; %>
 
 <%- include ('partials/footer') %>

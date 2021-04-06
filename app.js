@@ -1,7 +1,7 @@
 // App Purpose: Not-Etsy website for INFO2413. Team Five: Slingsby, Carlisle, Ricky, Savraj, Marcs.
 // Languages / Dialects Used: NodeJS, MongoDB NoSQL, EJS, JQuery, JavaScript, HTML, CSS, Sass, Bootstrap.
 
-// variables, so many variables, i can't hold them i'd die
+// variables, so many variables, i can't hold them and i'd die
 var express    = require('express'), 
 	app          = express(),
 	bodyParser   = require('body-parser'),
@@ -33,7 +33,7 @@ app.get("public/assets/cmstyles.css", function(req, res){
 });
 
 //this is required passport stuff touch and I will kill you -slingsby
-app.use(session({ secret: 'sweetmercifulboyogivesusmorehopethantoddhoward' })); // Our boy tood howard
+app.use(session({ secret: 'sweetmercifulboyogivesusmorehopethantoddhoward', resave: true, saveUninitialized: true })); // Our boy tood howard
 app.use(passport.initialize()); 
 app.use(passport.session());
 app.use(flash());

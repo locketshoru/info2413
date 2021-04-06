@@ -8,7 +8,7 @@ async function main() {
 
   const client = new MongoClient(uri);
 
-  try {
+  try { // node test-aggregate.js
     await client.connect();
     await printEmployeeOrderCount(client); // Prints out Employee's sales (refer to the function below as it will show the pipeline).
 	await printTotalSales(client); // A grand total of all income for the month

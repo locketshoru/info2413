@@ -11,8 +11,8 @@ THINGS TO DO ON THIS PAGE:
 
 This is the basic search that customers use. Employees and admins can also use it, though I don't know why they would other than for convenience. This only searches orders by order ID.
 
-	<form class="d-flex w-75 mx-auto mt-4" action="/obrowse" method="POST">
-		<input class="form-control me-2" type="text" placeholder="Search order...">
+	<form class="d-flex w-75 mx-auto mt-4" action="/search" method="POST">
+		<input class="form-control me-2" name="_id" id="_id" type="text" placeholder="Search order...">
 		<button class="btn btn-success" type="submit">Search</button>
 	</form>
 
